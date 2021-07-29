@@ -1,0 +1,44 @@
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'getWays' function below.
+#
+# The function is expected to return a LONG_INTEGER.
+# The function accepts following parameters:
+#  1. INTEGER n
+#  2. LONG_INTEGER_ARRAY c
+#
+
+def getWays(n, c):
+    # Write your code here
+    # creating the dp table
+    dp = []
+    # Initailing the row elements and setting the 0th element to one
+    l1 = [0]*(n+1)
+    l1[0] = 1
+    # Now filling the dp table with row elements
+    for i in range(len(c)+1):
+        dp.append(l1[:])
+    # sorting the coins avaible
+    c.sort()
+    for i in range(1,len(c)+1):
+        coin = c[i-1]
+        for j in range(1,n+1):
+        # IN each location we just try to answer one question whats the best we can do with using this coin and without using this coin
+            if coin > j:
+                dp[i][j] = dp[i-1][j]
+            else:
+                dif = j - coin
+                # with using the coin the best we can do is v1
+                # we are not checking in same row and only in one row above because we have given infinite supply of coins 
+                # if we have not given infinte supply of coins then we cant search in the same row
+                v1 = dp[i-1][dif]
+                # without using the coin the best we can do is dp[i-1][j]
+                v2 = v1 + dp[i-1][j]
+                dp[i][j] = v2
+    # and now finally we answer our quesiton if we had all the coins what is the best thing we can do or what is the maximum number of coins we can use to reach the target
+    return dp[-1][-1]
