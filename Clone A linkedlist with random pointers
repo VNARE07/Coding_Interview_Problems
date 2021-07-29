@@ -1,0 +1,72 @@
+#User function Template for python3
+
+'''
+class Node:
+    def __init__(self, data):   # data -> value stored in node
+        self.data = data
+        self.next = None
+        self.arb=None
+        
+param: head:  head of linkedList to copy
+return: the head of the copied linked list the #output will be 1 if successfully copied
+'''
+class Solution:
+    #Function to clone a linked list with next and random pointer.
+    def copyList(self, head):
+        # code here
+        # this is the 1st treverasal so that we create the copy nodes
+        # the original nodes points to the copy nodes and the copy nodes points to the next node of the original list
+        # so the next of the copy node is the actual next node
+        cur = head
+        while True:
+            if cur == None:
+                break
+            else:
+                node = Node(cur.data)
+                fol = cur.next
+                cur.next = node
+                node.next = fol
+                cur = fol
+        h1 = None
+        cur = head
+        # In the second pass we set the random pointers of the copy node 
+        while True:
+            if cur == None:
+                break
+            else:
+                n1copy = cur.next
+                mainn2 = n1copy.next
+                mainrandom = cur.arb
+                if mainrandom != None:
+                    copyrandom = mainrandom.next
+                    n1copy.arb = copyrandom
+                else:
+                    n1copy.arb = None
+                if mainn2 == None:
+                    cur = None
+                else:
+                    cur = mainn2
+        # now in the final pass we set the next pointers of the copy node and reset the original linked list
+        cur = head
+        while True:
+            if cur == None:
+                break
+            else:
+                n1copy = cur.next
+                mainn2 = n1copy.next
+                if mainn2 == None:
+                    n1copy.next = None
+                    cur.next = None
+                else:
+                    n2copy = mainn2.next
+                    n1copy.next = n2copy
+                    cur.next = mainn2
+                if h1 == None:
+                    h1 = n1copy
+                else:
+                    pass
+                if mainn2 == None:
+                    cur = None
+                else:
+                    cur = mainn2
+        return h1
