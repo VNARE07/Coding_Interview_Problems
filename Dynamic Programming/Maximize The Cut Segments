@@ -1,0 +1,42 @@
+class Solution():
+    def maximizeTheCuts(self,n,x,y,z):
+            #code here
+            # Creating the dp array
+            dp = []
+            # declaring the row length equal to the target lenghth + 1
+            l1 = [0]*(n+1)
+            # soting the cut sizes
+            l2 = [x,y,z]
+            l2.sort()
+            # filling the dp table with len(arr)+1 length
+            for i in range(len(l2)+1):
+                dp.append(l1[:])
+            # now filling the dp table
+            for i in range(1,len(dp)):
+                val = l2[i-1]
+                for j in range(1,n+1):
+                # now as we need to maximize the number of cuts 
+                # at each location in the dp table we just ask three questions and pick the maximum result from them
+                # what is the best thing we can do by picking this cut lenght or can we do better without picking this cut lenght
+                # for picking this cut we have 2 options that is search in the same row or seach in the row above it as there are infinite supply of cuts
+                # or we can just leave this cut for this length
+                    if val > j:
+                        v2 = dp[i-1][j]
+                        dp[i][j] = v2
+                    elif j == val:
+                        dp[i][j] = max(1,dp[i-1][j],dp[i-1][j-val])
+                    else:
+                        v2 = dp[i][j-val]
+                        if v2 != 0:
+                            v2 = v2 + 1
+                        else:
+                            v2 = 0
+                        v3 = dp[i-1][j-val]
+                        if v3 != 0:
+                            v3 = v3 + 1
+                        else:
+                            v3 = 0
+                        v1 = max(v2,dp[i-1][j],v3)
+                        dp[i][j] = v1
+            # now finally we answer the final question that after perforimg all cuts whats the maxium cuts we can make
+            return dp[-1][-1]
