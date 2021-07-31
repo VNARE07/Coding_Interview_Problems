@@ -1,0 +1,49 @@
+class Solution:
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+    # we store the words in hashamp we we can have constant time access of wheather or not the generated word is in the word list or not
+        word = {}
+        for i in words:
+            if i in word.keys():
+                word[i] = word[i] + 1
+            else:
+                word[i] = 1
+        # this stores all the index postion of where the condition is satisfied
+        sol = []
+        # the lengh of words
+        wl = len(words[0])
+        # total number of words
+        tw = len(words)
+        # sum of lengths of all words
+        twl = wl * tw
+        twl = twl
+        # len of the string s
+        lim = len(s)
+        for i in range(len(s)):
+        # this is the copy of dictinary word as we are continously manupualting and changing that dictiary
+            d1 = word.copy()
+        # the counter stores the start of the search so its a idex position
+            counter = i
+        # condition to check if now we start form this location we wont exceed we exceed the lenght of s while searching
+            if i + twl <= lim:
+                pass
+            else:
+                break
+           # this outer loop simulates the creation of each word 
+            for j in range(tw):
+                str1 = ''
+                # this inner for loop creates each word
+                for k in range(counter,counter + wl):
+                    str1 = str1 + s[k]
+                # updating counter
+                counter = counter + wl
+                if str1 in d1.keys():
+                    val = d1[str1]
+                    val = val - 1
+                    if val == 0:
+                        del d1[str1]
+                    else:
+                        d1[str1] = val
+            # if our map is empty then we were able to generate all the words form ith location so we upate the solution list
+            if not d1:
+                sol.append(i)
+        return sol
