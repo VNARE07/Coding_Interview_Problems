@@ -1,0 +1,60 @@
+class Que(object):
+    def __init__(self,v = None,l = None):
+        if v == None:
+            self.head = None
+            self.tail = None
+        else:
+            node = Node(v,l)
+            self.head = node
+            self.tail = node
+    def add(self,v,l):
+        node = Node(v,l)
+        cur = self.head
+        if cur == None:
+            self.head = node
+            self.tail = node
+        else:
+            tail = self.tail
+            tail.next = node
+            self.tail = node
+    def pop(self):
+        cur = self.head
+        if cur == None:
+            return None
+        else:
+            fol = cur.next
+            self.head = fol
+            return (cur.val,cur.level)
+class Node(object):
+    def __init__(self,v,l):
+        self.val = v
+        self.level = l
+        self.next = None
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        curlevel = 0
+        level = 0
+        sol = []
+        l1 = []
+        q = Que(root,level)
+        while True:
+            head = q.pop()
+            if head == None:
+                break
+            else:
+                node = head[0]
+                level = head[1]
+                if level == curlevel:
+                    l1.append(node.val)
+                else:
+                    sol.append(l1[:])
+                    l1.clear()
+                    l1.append(node.val)
+                    curlevel = level
+                if node.left != None:
+                    q.add(node.left,level+1)
+                if node.right != None:
+                    q.add(node.right,level+1)
+        if len(l1) > 0:
+            sol.append(l1)
+        return sol
