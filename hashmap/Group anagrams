@@ -1,0 +1,44 @@
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        d1 = {}
+        d2 = {}
+        sol = []
+        for i in strs:
+            bol = False
+            for j in d1.keys():
+                if len(j) == len(i):
+                    b1 = True
+                    b3 = d2[j].copy()
+                    for k in i:
+                        if k in b3.keys():
+                            val = b3[k]
+                            val = val - 1
+                            if val == 0:
+                                del b3[k]
+                            else:
+                                b3[k] = val
+                        else:
+                            b1 = False
+                            break
+                    if not b3 and b1 is True:
+                        d1[j].append(i)
+                        bol = True
+                        break
+            if bol is False:
+                d3 = {}
+                d3.clear()
+                for j in i:
+                    if j in d3.keys():
+                        d3[j] = d3[j] + 1
+                    else:
+                        d3[j] = 1
+                d4 = d3.copy()
+                d2[i] = d4
+                d1[i] = [i]
+        for i in d1.keys():
+            l1 = []
+            l1.clear()
+            for j in d1[i]:
+                l1.append(j)
+            sol.append(l1)
+        return sol
