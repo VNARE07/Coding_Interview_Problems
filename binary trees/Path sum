@@ -1,0 +1,25 @@
+class Solution:
+    def hasPathSum(self, root: TreeNode, targetsum: int) -> bool:
+        sum1 = 0
+        if root == None:
+            return False
+        stack = [(root,sum1)]
+        while True:
+            if len(stack) == 0:
+                break
+            else:
+                head = stack.pop()
+                node = head[0]
+                sum1 = head[1]
+                if node.left == None and node.right == None:
+                    sum1 = sum1 + node.val
+                    if sum1 == targetsum:
+                        return True
+                    else:
+                        pass
+                else:
+                    if node.right != None:
+                        stack.append((node.right,sum1+node.val))
+                    if node.left != None:
+                        stack.append((node.left,sum1+node.val))
+        return False
