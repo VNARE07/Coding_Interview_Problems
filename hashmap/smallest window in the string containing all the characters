@@ -1,0 +1,117 @@
+class Solution:
+    
+    #Function to find the smallest window in the string s consisting
+    #of all the characters of string p.
+    def smallestWindow(self, s, p):
+        #code here
+        # this empty string stores the resultant strings
+        str1 = ''
+        # this l1 is storing all the characteres which are present in p
+        l1 = []
+        # d1 stores the frequency of characters in p
+        d1 = {}
+        # whenever we are running through and doing the sliding window approach 
+        # this d2 stores the frequecy of char in that window
+        d2 = {}
+        # start maintains the start of our running window
+        start = 0
+        # solution stores the lenght of the running string
+        solution = None
+        # sindex and eindex stores the start and end of the actual result
+        sindex = None
+        eindex = None
+        # filling the dict d1
+        for i in p:
+            if i in d1.keys():
+                d1[i] = d1[i] + 1
+            else:
+                d1[i] = 1
+        d3 = d1.copy()
+        # Now the actual sliding window approach begins
+        for i in range(len(s)):
+        # if the character is there in the 'p' string the we need to check two things
+        # whaether it is there in our sliding window or not
+            if s[i] in d1.keys():
+            # if it is there in our sliding window then this is ecxecuted
+                if s[i] in d2.keys():
+                    l1.append((s[i],i))
+                    d2[s[i]] = d1[s[i]] + 1
+                    last = len(l1)-1
+                    count = 0
+                    # if we have more than the freq of that character the we try to remove it 
+                    # but we will only remove it if it is present at the start of our sliding window
+                    # else we will check that both of the char are there in d3 (which lets us know wheather all characters are included in our window)
+                    # and if their freq is greater than d3 then we remove delete it
+                    for j in range(start,len(l1)):
+                        f = l1[start][0]
+                        l = l1[last-count][0]
+                        if f == l:
+                            v1 = d1[f]
+                            v2 = d2[l]
+                            if v2 > v1:
+                                d2[f] = v2 - 1
+                                start = start + 1
+                                count = count + 1
+                                if f in d3.keys():
+                                    del d3[f]
+                            elif v2 == v1:
+                                if f in d3.keys():
+                                    del d3[f]
+                            else:
+                                pass
+                        else:
+                            v1 = d2[f]
+                            v2 = d1[f]
+                            if v1 >= v2:
+                                if f in d3.keys():
+                                    del d3[f]
+                            v1 = d2[l]
+                            v2 = d1[l]
+                            if v1 >= v2:
+                                if l in d3.keys():
+                                    del d3[l]
+                            break
+                    if not d3:
+                        s1 = l1[start][1]
+                        e1 = l1[-1][1]
+                        dif = e1 - s1 + 1
+                        if solution == None:
+                            solution = dif
+                            sindex = s1
+                            eindex = e1
+                        else:
+                            if dif < solution:
+                                solution = dif
+                                sindex = s1
+                                eindex = e1
+                 # if it is not there in our sliding window then this is executed
+                else:
+                    d2[s[i]] = 1
+                    l1.append((s[i],i))
+                    if s[i] in d3.keys():
+                        val = d2[s[i]]
+                        val1 = d1[s[i]]
+                        if val >= val1:
+                            if s[i] in d3.keys():
+                                del d3[s[i]]
+                        if not d3:
+                            s1 = l1[start][1]
+                            e1 = l1[-1][1]
+                            dif = e1 - s1 + 1
+                            if solution == None:
+                                solution = dif
+                                sindex = s1
+                                eindex = e1
+                            else:
+                                if dif < solution:
+                                    solution = dif
+                                    sindex = s1
+                                    eindex = e1
+            else:
+                pass
+        if sindex == None or eindex == None:
+            return -1
+        for i in range(sindex,eindex+1):
+            str1 = str1 + s[i]
+        return str1
+    
