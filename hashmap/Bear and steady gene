@@ -1,0 +1,81 @@
+def steadyGene(s):
+    # Write your code here
+    #code here
+    str1 = ''
+    l1 = []
+    d1 = {}
+    d2 = {}
+    d4 = {}
+    start = 0
+    solution = None
+    sindex = None
+    eindex = None
+    l2 = len(s)
+    limit = l2//4
+    for i in s:
+        if i in d4.keys():
+            d4[i] = d4[i] + 1
+        else:
+            d4[i] = 1
+    for i in d4.keys():
+        if d4[i] > limit:
+            d1[i] = d4[i] - limit
+    d3 = d1.copy()
+    for i in range(len(s)):
+        if s[i] in d1.keys():
+            if s[i] in d2.keys():
+                l1.append((s[i],i))
+                d2[s[i]] = d2[s[i]] + 1
+                if d2[s[i]] > d1[s[i]]:
+                    if s[i] in d3.keys():
+                        del d3[s[i]]
+                for i in range(start,len(l1)):
+                    val1 = d1[l1[start][0]]
+                    val2 = d2[l1[start][0]]
+                    if val2 > val1:
+                        d2[l1[start][0]] = val2-1
+                        if l1[start][0] in d3.keys():
+                            del d3[l1[start][0]]
+                        start = start + 1
+                    else:
+                        break
+                if not d3:
+                    s1 = l1[start][1]
+                    e1 = l1[-1][1]
+                    dif = e1 - s1 + 1
+                    if solution == None:
+                        solution = dif
+                        sindex = s1
+                        eindex = e1
+                    else:
+                        if dif < solution:
+                            solution = dif
+                            sindex = s1
+                            eindex = e1
+            else:
+                d2[s[i]] = 1
+                l1.append((s[i],i))
+                if s[i] in d3.keys():
+                    val = d2[s[i]]
+                    val1 = d1[s[i]]
+                    if val >= val1:
+                        if s[i] in d3.keys():
+                            del d3[s[i]]
+                if not d3:
+                    s1 = l1[start][1]
+                    e1 = l1[-1][1]
+                    dif = e1 - s1 + 1
+                    if solution == None:
+                        solution = dif
+                        sindex = s1
+                        eindex = e1
+                    else:
+                        if dif < solution:
+                            solution = dif
+                            sindex = s1
+                            eindex = e1
+        else:
+            pass
+    if sindex == None or eindex == None:
+        return 0
+    return solution
