@@ -1,0 +1,77 @@
+class heap(object):
+    def __init__(self,value = None):
+        if value == None:
+            self.heap = []
+            self.lenght = 0
+        else:
+            self.heap = [value]
+            self.lenght = 1
+    def getlength(self):
+        return len(self.heap)
+    def add(self,v):
+        if len(self.heap) == 0:
+            self.heap.append(v)
+            self.lenght = 1
+        else:
+            self.heap.append(v)
+            last = len(self.heap)-1
+            self.bubble(last)
+            self.lenght = self.lenght + 1
+    def bubble(self,child):
+        while True:
+            if child == 0:
+                break
+            else:
+                if child % 2 == 0:
+                    par = (child-1)//2
+                else:
+                    par = child//2
+            if self.heap[par] <= self.heap[child]:
+                break
+            else:
+                self.swap(par,child)
+                child = par
+    def pop(self):
+        if len(self.heap) == 0:
+            self.lenght = 0
+            return None
+        elif len(self.heap) == 1:
+            v1 = self.heap.pop()
+            self.lenght = self.lenght - 1
+            return v1
+        else:
+            last = len(self.heap)-1
+            self.swap(0,last)
+            v1 = self.heap.pop()
+            lim = len(self.heap)-1
+            self.sink(lim)
+            self.lenght = self.lenght - 1
+            return v1
+    def sink(self,last):
+        par = 0
+        lim = last
+        while True:
+            left = (par * 2) + 1
+            right = (par * 2) + 2
+            if left > lim and right > lim:
+                break
+            elif left < lim and right <= lim:
+                if (self.heap[par] <= self.heap[left]) and (self.heap[par] <= self.heap[right]):
+                    break
+                else:
+                    if self.heap[left] < self.heap[right]:
+                        self.swap(par,left)
+                        par = left
+                    else:
+                        self.swap(par,right)
+                        par = right
+            elif left <= lim and right > lim:
+                if self.heap[par] <= self.heap[left]:
+                    break
+                else:
+                    self.swap(par,left)
+                    par = left
+    def swap(self,s,e):
+        temp = self.heap[s]
+        self.heap[s] = self.heap[e]
+        self.heap[e] = temp
