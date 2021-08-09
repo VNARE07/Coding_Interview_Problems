@@ -1,0 +1,42 @@
+# Linked List Node 
+class Node: 
+	def __init__(self, d): 
+		self.data = d 
+		self.next = None
+		'''
+class Solution:    
+    def rearrangeEvenOdd(self, head):
+        #code here
+        eh = None
+        et = None
+        oh = None
+        ot = None
+        counter = 0
+        cur = head
+        while True:
+            if cur == None:
+                break
+            else:
+                counter = counter + 1
+                fol = cur.next
+                if counter % 2 == 0:
+                    if et == None:
+                        eh = cur
+                        et = cur
+                        et.next = None
+                    else:
+                        et.next = cur
+                        et = cur
+                        et.next = None
+                else:
+                    if ot == None:
+                        oh = cur
+                        ot = cur
+                        oh.next = None
+                    else:
+                        ot.next = cur
+                        ot = cur
+                        ot.next = None
+                cur = fol
+        ot.next = eh
+        return oh
