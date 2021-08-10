@@ -1,0 +1,108 @@
+# creating a Que data Structure
+class Que(object):
+    def __init__(self,val = None):
+    # if no parameters are passed then head and tail pointer will point to null
+        if val == None:
+            self.head = None
+            self.tail = None
+    # else head and tail pointer will be pointing the new node created
+        else:
+            node = Node(val)
+            self.head = node
+            self.tail = node
+    # method to add new node
+    def add(self,val):
+    # creating a new node object
+        node = Node(val)
+    # getting the reference of head node
+        cur = self.head
+    # if head node is pointing to null then the head and tail pointers will be pointing to the new node
+        if cur == None:
+            self.head = node
+            self.tail = node
+    # else the tail node will point to the new node and the new node is the new tail
+        else:
+            tail = self.tail
+            tail.next = node
+            self.tail = node
+    # pop ,methhod
+    def pop(self):
+        cur = self.head
+        if cur == None:
+            return None
+        else:
+            fol = cur.next
+            self.head = fol
+            return cur.data
+            
+class Node(object):
+    def __init__(self,v):
+        self.data = v
+        self.next = None
+
+class Solution:
+    def solve(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        border = {}
+        zeros = {}
+        done = {}
+        rl = len(board) - 1
+        cl = len(board[0]) - 1
+        for i in range(len(board)):
+            for j in range(len(board[i])):
+                if board[i][j] == 'O':
+                    zeros[(i,j)] = True
+                    if (i == 0 or i == rl) or (j == 0 or j == cl):
+                        border[(i,j)] = True
+                else:
+                    pass
+        while True:
+            if not border:
+                break
+            else:
+                l1 = list(border.keys())
+                val = l1[0]
+                l1.clear()
+                q = Que(val)
+                while True:
+                    head = q.pop()
+                    if head == None:
+                        break
+                    else:
+                        if head in done.keys():
+                            done[head] = True
+                        else:
+                            done[head] = True
+                            if head in zeros.keys():
+                                del zeros[head]
+                            if head in border.keys():
+                                del border[head]
+                            if head[0] - 1 >= 0:
+                                tup = (head[0]-1,head[1])
+                                if tup not in done.keys() and board[tup[0]][tup[1]] == 'O':
+                                    q.add(tup)
+                                else:
+                                    pass
+                            if head[0] + 1 <= rl:
+                                tup = (head[0]+1,head[1])
+                                if tup not in done.keys() and board[tup[0]][tup[1]] == 'O':
+                                    q.add(tup)
+                                else:
+                                    pass
+                            if head[1] - 1 >= 0:
+                                tup = (head[0],head[1]-1)
+                                if tup not in done.keys() and board[tup[0]][tup[1]] == 'O':
+                                    q.add(tup)
+                                else:
+                                    pass
+                            if head[1] + 1 <= cl:
+                                tup = (head[0],head[1]+1)
+                                if tup not in done.keys() and board[tup[0]][tup[1]] == 'O':
+                                    q.add(tup)
+                                else:
+                                    pass
+        for i in zeros.keys():
+            board[i[0]][i[1]] = 'X'
+        
