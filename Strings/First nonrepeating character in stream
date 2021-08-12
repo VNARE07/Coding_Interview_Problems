@@ -1,0 +1,27 @@
+class Solution:
+	def FirstNonRepeating(self, a):
+		# Code here
+		d1 = {}
+		str1 = ''
+		l1 = []
+		start = 0
+		for i in range(len(a)):
+		    if a[i] in d1.keys():
+		        d1[a[i]] = d1[a[i]] + 1
+		    else:
+		        d1[a[i]] = 1
+		        l1.append(a[i])
+		    bol = False
+    		for j in range(start,len(l1)):
+    		    char = l1[j]
+    		    val = d1[char]
+    		    if val == 1:
+    		        str1 = str1 + l1[j]
+    		        start = j
+    		        bol= True
+    		        break
+    		    else:
+    		        start = j
+    	    if bol is False:
+    	        str1 = str1 + '#'
+        return str1
