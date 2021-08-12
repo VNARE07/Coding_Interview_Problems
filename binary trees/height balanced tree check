@@ -1,0 +1,64 @@
+class Solution:
+    def isBalanced(self,root):
+    # we will solve this problem by using iterative postorder trevresal
+    # each node in the stack has 4 attributes that is 
+    # 1. refrerence to tree node i.e node itself
+    # 2. stack node status 'ud' if we havent visted all of its subtrees and 'd' if we have visited
+    # 3. longest path from the left subtree
+    # 4. longest path form the right subtree
+        stack = [(root,'ud',0,0)]
+        while True:
+        # if stack is empty then break
+            if len(stack) == 0:
+                break
+            else:
+                head = stack.pop()
+                node = head[0]
+                val = node.data
+                status = head[1]
+                left = head[2]
+                right = head[3]
+                if status == 'ud':
+                    stack.append((node,'d',left,right))
+                    if node.right != None:
+                        stack.append((node.right,'ud',0,0))
+                    if node.left != None:
+                        stack.append((node.left,'ud',0,0))
+                else:
+                    l1 = []
+                    l1.clear()
+                    # dif is mod of diff in the lenth of left tree and right sub tree
+                    dif = right - left
+                    if dif > 0:
+                        pass
+                    else:
+                        dif = dif * -1
+                    if dif <= 1:
+                        pass
+                    else:
+                        return False
+                    # searching for the parent node of the current node
+                    # we update the parent nodes left tree path legth or right tree path legth
+                    # by max(child nodes left tree path and right tree path) + 1 
+                    # + 1 is the child node counting itself
+                    while True:
+                        if len(stack) == 0:
+                            break
+                        else:
+                            head1 = stack.pop()
+                            if head1[1] == 'ud':
+                                l1.append(head1)
+                            else:
+                                dif = max(right,left)
+                                dif = dif + 1
+                                if head1[2] == 0:
+                                    tup = (head1[0],head1[1],dif,head1[3])
+                                else:
+                                    tup = (head1[0],head1[1],head1[2],dif)
+                                l1.append(tup)
+                                break
+                    for i in range(len(l1)):
+                        head2 = l1.pop()
+                        stack.append(head2)
+        # if the while loop excutes completly then it hight balanced
+        return True
