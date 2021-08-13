@@ -1,0 +1,24 @@
+class Solution:
+    def longestCommonPrefix(self, arr, n):
+        # code here
+        # common stores longest common prefix
+        common = ''
+        for i in range(len(arr)):
+        # if it the first string then set the common prefix as that string
+            if i == 0 and len(common) == 0:
+                common = arr[i]
+        # if it is not the 1st string and if the lenght of the common prefix is zero then return -1
+            elif i != 0 and len(common) == 0:
+                return -1
+       # else we upadate the common prefix term
+            elif i != 0 and len(common) != 0:
+                l = min(len(common),len(arr[i]))
+                str1 = ''
+                for j in range(l):
+                    if common[j] == arr[i][j]:
+                        str1 = str1 + arr[i][j]
+                    else:
+                        break
+                common = str1
+        # if -1 is not returned which means the common preifx exist so we return it
+        return common
