@@ -1,0 +1,30 @@
+def findElement( arr, n):
+    g = [False]*len(arr)
+    s = [False]*len(arr)
+    larger = None
+    smaller = None
+    last = None
+    for i in range(len(arr)):
+        if larger == None:
+            larger = arr[i]
+        else:
+            if larger <= arr[i]:
+                larger = arr[i]
+                g[i] = True
+            else:
+                pass
+    for i in range(len(arr)-1,-1,-1):
+        if smaller == None:
+            smaller = arr[i]
+        else:
+            if smaller >= arr[i]:
+                smaller = arr[i]
+                s[i] = True
+                if g[i] is True:
+                    last = arr[i]
+            else:
+                pass
+    if last == None:
+        return -1
+    else:
+        return last
