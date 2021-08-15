@@ -1,0 +1,77 @@
+class Que(object):
+    def __init__(self,v = None):
+        if v == None:
+            self.head = None
+            self.tail = None
+        else:
+            node = Nodee(v)
+            self.head = node
+            self.tail = node
+    def add(self,v):
+        node = Nodee(v)
+        cur = self.head
+        if cur == None:
+            self.head = node
+            self.tail = node
+        else:
+            tail = self.tail 
+            tail.next = node
+            self.tail = node
+    def pop(self):
+        cur = self.head
+        if cur == None:
+            return None
+        else:
+            fol = cur.next
+            self.head = fol
+            return cur.data
+class Nodee(object):
+    def __init__(self,v):
+        self.data = v
+        self.next = None
+def isSymmetric(root):
+    # Your Code Here
+    if root == None:
+        return True
+    if root.left != None and root.right != None:
+        if root.left.data == root.right.data:
+            pass
+        else:
+            return False
+    elif root.left == None and root.right == None:
+        return True
+    else:
+        return False
+    q1 = Que(root.left)
+    q2 = Que(root.right)
+    while True:
+        h1 = q1.pop()
+        h2 = q2.pop()
+        if h1 == None and h2 == None:
+            return True
+        l1 = h1.left
+        l2 = h2.left
+        r1 = h1.right
+        r2 = h2.right
+        if l1 == None and r2 == None:
+            pass
+        elif l1 != None and r2 != None:
+            if l1.data == r2.data:
+                q1.add(l1)
+                q2.add(r2)
+            else:
+                return False
+        else:
+            return False
+        if r1 == None and l2 == None:
+            pass
+        elif r1 != None and l2 != None:
+            if r1.data == l2.data:
+                q1.add(r1)
+                q2.add(l2)
+            else:
+                return False
+        else:
+            return False
+                
+    return True
