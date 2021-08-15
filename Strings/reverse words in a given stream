@@ -1,0 +1,26 @@
+class Solution:
+    
+    #Function to reverse words in a given string.
+    def reverseWords(self,s):
+        # code here 
+        l1 = []
+        str1 = ''
+        for i in s:
+            if i == '.':
+                if len(str1) > 0:
+                    l1.append(str1)
+                str1 = ''
+            else:
+                str1 = str1 + i
+        if len(str1) > 0:
+            l1.append(str1)
+        sol = ''
+        for i in range(len(l1)):
+            head = l1.pop()
+            sol = sol + head
+            sol = sol + '.'
+        if len(sol) > 0:
+            asol = sol[:len(sol)-1]
+        else:
+            asol = ''
+        return asol
