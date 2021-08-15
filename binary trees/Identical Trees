@@ -1,0 +1,63 @@
+class Que(object):
+    def __init__(self,v):
+        if v == None:
+            self.head = None
+            self.tail = None
+        if v != None:
+            node = Nodee(v)
+            self.head = node
+            self.tail = node
+    def add(self,v):
+        node = Nodee(v)
+        cur = self.head
+        if cur == None:
+            self.head = node
+            self.tail = node
+        else:
+            tail = self.tail
+            tail.next = node
+            self.tail = node
+    def pop(self):
+        cur = self.head
+        if cur == None:
+            return None
+        else:
+            fol = cur.next
+            self.head = fol
+            return cur.value
+class Nodee(object):
+    def __init__(self,v):
+        self.value = v
+        self.next = None
+class Solution:
+    #Function to check if two trees are identical.
+    def isIdentical(self,root1, root2):
+        # Code here
+        q1 = Que(root1)
+        q2 = Que(root2)
+        while True:
+            h1 = q1.pop()
+            h2 = q2.pop()
+            if h1 == None and h2 == None:
+                return True
+            if h1 != None and h2 == None:
+                return False
+            if h1 == None and h2 != None:
+                return False
+            if h1.data == h2.data:
+                if h1.left != None and h2.left != None:
+                    q1.add(h1.left)
+                    q2.add(h2.left)
+                elif h1.left == None and h2.left == None:
+                    pass
+                else:
+                    return False
+                if h1.right != None and h2.right != None:
+                    q1.add(h1.right)
+                    q2.add(h2.right)
+                elif h1.right == None and h2.right == None:
+                    pass
+                else:
+                    return False
+            else:
+                return False
