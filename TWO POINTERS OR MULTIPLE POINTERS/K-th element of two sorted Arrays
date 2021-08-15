@@ -1,0 +1,39 @@
+class Solution:
+    def kthElement(self,  arr1, arr2, n, m, k):
+    # p1 and p2 are the two pointers which points to the current elements in the arrays
+        p1 = 0
+        p2 = 0
+    # p1lim and p2lim are the limit of the two arrays which can handles the overflow error i.e it makes sure that we dont exceed the limit
+        p1lim = len(arr1)-1
+        p2lim = len(arr2)-1
+        count = 0
+        while True:
+        # this condition will never happen but for safer side if this condition happens then we will get the time limit exceeded error and we can rectify it with returning None or -1            if p1 > p1lim and p2 > p2lim:
+                break
+            # if both of the pointers are well within the limit then pick the smallest of them and update the pointer realted to it accordingly
+            elif p1 <= p1lim and p2 <= p2lim:
+                if arr1[p1] <= arr2[p2]:
+                    count = count + 1
+                    if count == k:
+                        return arr1[p1]
+                    else:
+                        p1 = p1 + 1
+                else:
+                    count = count + 1
+                    if count == k:
+                        return arr2[p2]
+                    else:
+                        p2 = p2 + 1
+             # both of the below condition will excute if and only if we have atleast finished or considered all the elements from one array
+            elif p1 > p1lim and p2 <= p2lim:
+                count = count + 1
+                if count == k:
+                    return arr2[p2]
+                else:
+                    p2 = p2 + 1
+            elif p1 <= p1lim and p2 > p2lim:
+                count = count + 1
+                if count == k:
+                    return arr1[p1]
+                else:
+                    p1 = p1 + 1
