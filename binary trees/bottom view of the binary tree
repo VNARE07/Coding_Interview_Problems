@@ -1,0 +1,48 @@
+class Solution:
+    def bottomView(self, root):
+        # code here
+        # this is a stack based approach i.e a dfs one
+        # thus i have used a level dictiionary to keep track of level
+        # if we would have used a que then we wont need this level dict
+        # every thing else is similar
+        l1 = []
+        d1 = {}
+        level = {}
+        stack = [(root,0,0)]
+        min1 = None
+        max1 = None
+        while True:
+            if len(stack) == 0:
+                break
+            else:
+                head = stack.pop()
+                node = head[0]
+                pos = head[1]
+                l = head[2]
+                val = node.data
+                if min1 == None:
+                    min1 = pos
+                else:
+                    if pos < min1:
+                        min1 = pos
+                if max1 == None:
+                    max1 = pos
+                else:
+                    if pos > max1:
+                        max1 = pos
+                if pos in d1.keys():
+                    l2 = level[pos]
+                    if l2 < l:
+                        level[pos] = l
+                        d1[pos] = val
+                else:
+                    d1[pos] = val
+                    level[pos] = l
+                if node.left != None:
+                    stack.append((node.left,pos-1,l+1))
+                if node.right != None:
+                    stack.append((node.right,pos+1,l+1))
+        for i in range(min1,max1+1):
+            if i in d1.keys():
+                l1.append(d1[i])
+        return l1
