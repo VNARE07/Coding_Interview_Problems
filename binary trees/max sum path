@@ -1,0 +1,77 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+    # gmax holds the end result
+        gmax = None
+    # this l and r are the set to none so that while giving values it would be easier to know to update the parents left sub tree value or the right one
+        l = None
+        r = None
+    # initilaization of the stack each node of the stack has 
+    # a tree node reference
+    # a status 
+    # and the best or the max sum attained form the left and the right child
+        stack = [(root,'ud',l,r)]
+        while True:
+            if len(stack) == 0:
+                break
+            else:
+                head = stack.pop()
+                node = head[0]
+                status = head[1]
+                left = head[2]
+                right = head[3]
+                # now we have 2 things to do one is if the node is unexplored then explore it or else if it is explored then we try to get the best we can do form this node
+                # and we pass on the best route to the parent
+                if status == 'ud':
+                    stack.append((node,'d',left,right))
+                    if node.right != None:
+                        stack.append((node.right,'ud',None,None))
+                    if node.left != None:
+                        stack.append((node.left,'ud',None,None))
+                else:
+                    if left == None:
+                        left = 0
+                    if right == None:
+                        right = 0
+                    # if the left is none or right is none which means there is no path down which means the effive sum is zero
+                    # four possible ways to maximize path and 3 ways to pass on to the parent
+                    total1 = node.val + left + right
+                    total2 = node.val
+                    total3 = node.val + left
+                    total4 = node.val + right
+                    total = max(total1,total2,total3,total4)
+                    if gmax == None:
+                        gmax = total
+                    else:
+                        if total > gmax:
+                            gmax = total
+                    maxi = max(total2,total3,total4)
+                    l1 = []
+                    l1.clear()
+                    while True:
+                        if len(stack) == 0:
+                            break
+                        else:
+                            head1 = stack.pop()
+                            if head1[1] == 'ud':
+                                l1.append(head1)
+                            else:
+                                if head1[2] == None:
+                                    tup = (head1[0],head1[1],maxi,head1[3])
+                                    l1.append(tup)
+                                else:
+                                    tup = (head1[0],head1[1],head1[2],maxi)
+                                    l1.append(tup)
+                                break
+                    for i in range(len(l1)):
+                        head2 = l1.pop()
+                        stack.append(head2)
+        if gmax == None:
+            return 0
+        else:
+            return gmax
