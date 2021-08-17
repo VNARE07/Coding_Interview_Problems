@@ -1,0 +1,29 @@
+class Solution:
+    def smallestFromLeaf(self, root: Optional[TreeNode]) -> str:
+        d1 = {}
+        d2 = {}
+        alpha = 'abcdefghijklmnopqrstuvwxyz'
+        for i in range(len(alpha)):
+            d1[alpha[i]] = i
+            d2[i] = alpha[i]
+        l1 = []
+        stack = [(root,'','')]
+        while True:
+            if len(stack) == 0:
+                break
+            else:
+                head = stack.pop()
+                node = head[0]
+                str1 = head[1]
+                str2 = head[2]
+                str1 = d2[node.val]+str1
+                str2 = str(node.val) + str2
+                if node.left == None and node.right == None:
+                    l1.append(str1)
+                else:
+                    if node.right != None:
+                        stack.append((node.right,str1,str2))
+                    if node.left != None:
+                        stack.append((node.left,str1,str2))
+        l1.sort()
+        return l1[0]
