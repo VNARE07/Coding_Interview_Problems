@@ -1,0 +1,27 @@
+class Solution:
+    def sumNumbers(self, root: Optional[TreeNode]) -> int:
+        # initizing the total sum to zero
+        total = 0
+        # stack is inserting the root node and the parent number into the stacks first node
+        stack = [(root,'')]
+        while True:
+        # if the stack is empty break out of the loop
+            if len(stack) == 0:
+                break
+            else:
+                # pop node out of the stack
+                head = stack.pop()
+                node = head[0]
+                str1 = head[1]
+                # new number formed is parent number(str1) + the current number(node.data)
+                str1 = str1 + str(node.val)
+                # if it is a leaf node then uodate teh total sum
+                if node.left == None and node.right == None:
+                    total = total + int(str1)
+                else:
+                    if node.right != None:
+                        stack.append((node.right,str1))
+                    if node.left != None:
+                        stack.append((node.left,str1))
+        # return total
+        return total
