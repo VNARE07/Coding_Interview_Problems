@@ -1,0 +1,37 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def findSecondMinimumValue(self, root: Optional[TreeNode]) -> int:
+        min1 = None
+        stack = [root]
+        while True:
+            if len(stack) == 0:
+                break
+            else:
+                head = stack.pop()
+                if head.left != None and head.right != None:
+                    if head.left.val < head.right.val:
+                        if min1 == None:
+                            min1 = head.right.val
+                        else:
+                            if min1 > head.right.val:
+                                min1 = head.right.val
+                        stack.append(head.left)
+                    elif head.left.val > head.right.val:
+                        if min1 == None:
+                            min1 = head.left.val
+                        else:
+                            if min1 > head.left.val:
+                                min1 = head.left.val
+                        stack.append(head.right)
+                    else:
+                        stack.append(head.right)
+                        stack.append(head.left)
+        if min1 == None:
+            return -1
+        else:
+            return min1
