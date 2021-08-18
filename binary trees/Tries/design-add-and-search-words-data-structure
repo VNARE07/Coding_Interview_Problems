@@ -1,0 +1,60 @@
+class WordDictionary:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.trie = {}
+
+    def addWord(self, word):
+    # Trie is a tree data structure
+    # I have implemeneted the Trie by using nested dictionaries
+    # so we start with the upper most level in the trie'
+    # now if the character is present in the trie then we consider it and put in the stack with its chid nodes
+    # and now when we have inserted all the chars in the trie now due to our implenetation as we exit the for loop d1 will still hold the child of the last char of word
+    # so we in insert a boolean key Leaf init which signifies that it is a complete word
+    # this leaf helps us to get to know that if a word ends here
+        d1 = self.trie
+        for i in word:
+            if i in d1.keys():
+                d1 = d1[i]
+            else:
+                d1[i] = {}
+                d1 = d1[i]
+        d1['Leaf'] = True
+    def search(self, word):
+        d1 = self.trie
+        stack = [(d1,word[0],0)]
+        # stack has all the unexplored nodes
+        lim = len(word)-1
+        while True:
+            if len(stack) == 0:
+                break
+            else:
+                head = stack.pop()
+                d2 = head[0]
+                char = head[1]
+                level = head[2]
+                if level < lim:
+                    if char == '.':
+                    # if the current char is '.' then we need add all the child except the leaf bcuse leaf is just a marker which signifies that we a word ends here
+                        for i in d2.keys():
+                            if i != 'Leaf':
+                                d3 = d2[i]
+                                stack.append((d3,word[level+1],level+1))
+                    else:
+                        if char in d2.keys():
+                            d2 = d2[char]
+                            stack.append((d2,word[level+1],level+1))
+                elif level == lim:
+                    if char in d2.keys():
+                        d3 = d2[char]
+                        if 'Leaf' in d3.keys():
+                            return True
+                    if char == '.':
+                        for i in d2.keys():
+                            if i != 'Leaf':
+                                d4 = d2[i]
+                                if 'Leaf' in d4.keys():
+                                    return True
+        return False
