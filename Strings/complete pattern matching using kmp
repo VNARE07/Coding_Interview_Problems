@@ -1,0 +1,44 @@
+class Solution:
+    def search(self, pat, txt):
+        # code here
+        # l1 stores longest suffix which is also prefix for each index in pattern
+        # solution stores the matched complete matched index
+        # start is the pointer for the curent matching index in pattern
+        l1 = []
+        sol = []
+        lim = len(pat)
+        start = 0
+        for i in range(len(pat)):
+        # if len(pat) == 0 then longest suffix which is also prefix is zero
+            if i == 0:
+                l1.append(0)
+        # for any other case what we can say is 
+            else:
+            # check for the longest common prefix for previous elemnet and check if we can add for it 
+                look = l1[i-1]
+                if pat[look] == pat[i]:
+                    l1.append(look+1)
+            # else check if the 1st elemet matches or not
+                else:
+                    if pat[0] == pat[i]:
+                        l1.append(1)
+                    else:
+                        l1.append(0)
+        # start stores the index for pattern
+        # if it is a match then move forward with the check or else
+        # check longest suffix which is also prefix for that index in the l1 and if the next element matches then it is upadted or else check 
+        for i in range(len(txt)):
+            if patt[start] == txt[i]:
+                start = start + 1
+            else:
+                start = l1[start]
+                if patt[start] == txt[i]:
+                    start = start + 1
+                else:
+                    start = 0
+            if start > lim-1:
+                sol.append(i - lim + 2)
+                start = l1[start-1]
+            else:
+                pass
+        return sol
