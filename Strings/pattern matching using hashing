@@ -1,0 +1,17 @@
+class Solution:
+    def search(self, pat, txt):
+        # code here
+        lim = len(pat)
+        tl = len(txt)
+        d1 = {}
+        d1[pat] = True
+        l1 = []
+        for i in range(len(txt)):
+            if i + lim > tl:
+                break
+            str1 = ''
+            for j in range(i,i+lim):
+                str1 = str1 + txt[j]
+            if str1 in d1.keys():
+                l1.append(i+1)
+        return l1
