@@ -1,0 +1,28 @@
+class Solution:
+    def allPalindromicPerms(self, s):
+        # code here 
+        start = 0
+        sol = []
+        lim = len(s)-1
+        stack = [(start,[])]
+        while True:
+            if len(stack) == 0:
+                break
+            else:
+                head = stack.pop()
+                start = head[0]
+                l1 = head[1][:]
+                if start > lim:
+                    sol.append(l1[:])
+                else:
+                    str1 = ''
+                    str2 = ''
+                    for i in range(start,len(s)):
+                        str1 = str1 + s[i]
+                        str2 = s[i] + str2
+                        if str1 == str2:
+                            l2 = l1[:]
+                            l2.append(str1)
+                            stack.append((i+1,l2[:]))
+        sol.reverse()
+        return sol
