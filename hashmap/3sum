@@ -1,0 +1,51 @@
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        d1 = {}
+        sol = []
+        # rep stores the each triplets it comes in handy while detecting duplicates
+        # because we need to sum 3 numbers to 0 and if 2 numbers are the same then we will have collisions
+        rep = {}
+        for i in range(len(nums)):
+            if nums[i] in d1.keys():
+                d1[nums[i]].append(i)
+            else:
+                d1[nums[i]] = [i]
+        for i in range(len(nums)):
+            val = nums[i]
+            for j in range(i,len(nums)):
+                if i != j:
+                    bol = False
+                    val1 = val + nums[j]
+                    if val in rep.keys():
+                        if nums[j] not in rep[val].keys():
+                            bol = True
+                        else:
+                            pass
+                    else:
+                        bol = True
+                    dif = val1 * -1
+                    if dif in d1.keys() and bol is True:
+                        for k in d1[dif]:
+                            if k > j:
+                                sol.append([nums[i],nums[j],nums[k]])
+                                if nums[i] in rep.keys():
+                                    rep[nums[i]][nums[j]] = True
+                                    rep[nums[i]][nums[k]] = True
+                                else:
+                                    rep[nums[i]] = {nums[j]:True,nums[k]:True}
+                                if nums[j] in rep.keys():
+                                    rep[nums[j]][nums[i]] = True
+                                    rep[nums[j]][nums[k]] = True
+                                else:
+                                    rep[nums[j]] = {nums[i]:True,nums[k]:True}
+                                if nums[k] in rep.keys():
+                                    rep[nums[k]][nums[i]] = True
+                                    rep[nums[k]][nums[j]] = True
+                                else:
+                                    rep[nums[k]] = {nums[i]:True,nums[j]:True}
+                                break
+                            else:
+                                pass
+                    else:
+                        pass
+        return sol
