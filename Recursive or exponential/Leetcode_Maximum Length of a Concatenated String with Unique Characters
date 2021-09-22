@@ -1,0 +1,45 @@
+class Solution:
+    def maxLength(self, arr: List[str]) -> int:
+      # maxount stores the maximal count of unique strings
+        maxcount = 0
+        for i in range(len(arr)):
+            d1 = {}
+            d1.clear()
+            bol1 = True
+            # this iteration is to check wheather the start is correct or all the characters in the selected string is unique
+            # if they are unique bol is True
+            # else bol is False
+            for j in arr[i]:
+                if j in d1.keys():
+                    bol1 = False
+                else:
+                    d1[j] = True
+            # if unique we recrrsivly solve the problem
+            if bol1 is True:
+                stack = [(i,d1,0)]
+                while True:
+                    if len(stack) == 0:
+                        break
+                    else:
+                        head = stack.pop()
+                        pos = head[0]
+                        d2 = head[1].copy()
+                        counter = head[2]
+                        counter = counter + len(arr[pos])
+                        if counter > maxcount:
+                            maxcount = counter
+                        else:
+                            pass
+                        for j in range(pos,len(arr)):
+                            bol = True
+                            d3 = d2.copy()
+                            # selecting all the remaning words
+                            for k in arr[j]:
+                                if k not in d3.keys():
+                                    d3[k] = True
+                                else:
+                                    bol = False
+                                    break
+                            if bol is True:
+                                stack.append((j,d3,counter))
+        return maxcount
